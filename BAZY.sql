@@ -70,7 +70,7 @@ PRA_Imie				varchar2(20) 		NOT NULL,
 PRA_Nazwisko			varchar2(30) 		NOT NULL,
 PRA_Stanowisko			varchar2(30),
 PRA_Telefon				number(12),
-ADR_Id				number(4) 				NOT NULL
+ADR_Id					number(4) 			NOT NULL
 );
 
 alter table PRACOWNICY add constraint CSR_PK_PRACOWNICY
@@ -83,9 +83,9 @@ references ADRES (ADRk_1_Id);
 create table FIRMA (
 FIRk_1_Id				number(4)			NOT NULL,
 FIR_Nazwa				varchar2(20)		NOT NULL,
-FIR_Nip					varchar2(15)			NOT NULL,
+FIR_Nip					varchar2(15)		NOT NULL,
 FIR_Regon				number(10),
-ADR_Id				number(4) 				NOT NULL 
+ADR_Id					number(4) 			NOT NULL 
 );
 
 alter table FIRMA add constraint CSR_PK_FIRMA
@@ -100,7 +100,7 @@ KLIk_1_Id				number(4)			NOT NULL,
 KLI_Imie				varchar2(20),
 KLI_Nazwisko			varchar2(20),
 KLI_DowodOsobisty		varchar2(10),
-FIR_Id				number(4) 			NOT NULL
+FIR_Id					number(4) 			NOT NULL
 );
 
 alter table KLIENCI add constraint CSR_PK_KLIENCI
@@ -127,12 +127,12 @@ references SPRZET (SPRk_1_Id);
 -- REZ_DATA ma byc typu date ale poki co jest varchar2!!!!----------------------
 
 create table REZERWACJA(
-REZk_1_Id			number(4)			NOT NULL,
+REZk_1_Id			number(4)		NOT NULL,
 REZ_Data			varchar2(10),
 REZ_Ile_Dni			number(4),
 REZ_Ile_Sztuk		number(4),
-KLI_Id				number(4) 	NOT NULL,
-SPR_Id			number(4)		NOT NULL
+KLI_Id				number(4) 		NOT NULL,
+SPR_Id				number(4)		NOT NULL
 );
 
 alter table REZERWACJA add constraint CSR_PK_REZERWACJA
@@ -151,7 +151,7 @@ create table POZYCJE_WYPOZYCZENIA(
 POZk_1_Id			number(4)			NOT NULL,
 POZ_Rabat			number(4),
 POZ_Ilosc_Sztuk		number(4)			NOT NULL,
-SPR_Id			number(4) 			NOT NULL
+SPR_Id				number(4) 			NOT NULL
 );
 
 alter table POZYCJE_WYPOZYCZENIA add constraint CSR_PK_POZYCJE_WYPOZYCZENIA
@@ -188,8 +188,8 @@ create table PLATNOSC(
 PLAk_1_Id				number(4)			NOT NULL,
 PLA_Zaliczka			number(4),
 PLA_Data				varchar2(15),
-PRA_Id				number(4)			NOT NULL,
-KLI_Id				number(4)			NOT NULL
+PRA_Id					number(4)			NOT NULL,
+KLI_Id					number(4)			NOT NULL
 );
 
 alter table PLATNOSC add constraint CSR_PK_PLATNOSC
@@ -206,11 +206,11 @@ references PRACOWNICY (PRAk_1_Id);
 -- WYP_Data_Oddania ma byc typu date ale poki co jest varchar2!!!!----------------------
 
 create table WYPOZYCZENIA( 
-WYPk_1_Id 				number(4) NOT NULL,
+WYPk_1_Id 				number(4) 		NOT NULL,
 WYP_Data_Oddania		varchar2(15),
-WYP_Wartosc_Brutto		number(4) NOT NULL,
-FAK_Id					number(4) NOT NULL,
-PRA_Id 					number(4) NOT NULL
+WYP_Wartosc_Brutto		number(4) 		NOT NULL,
+FAK_Id					number(4) 		NOT NULL,
+PRA_Id 					number(4) 		NOT NULL
 );
 
 alter table WYPOZYCZENIA add constraint CSR_PK_WYPOZYCZENIA
@@ -714,11 +714,11 @@ end;
 
 -- UPDATE'Y:
 
-update REZERWACJA set REZ_Data	= '31.12.2000' 	where REZk_1_Id = 2;
-update REZERWACJA set REZ_Ile_Dni 	= '100' 	where REZk_1_Id = 4;
-update REZERWACJA set REZ_Ile_Sztuk 	= '99' 	where REZk_1_Id = 7;
-update REZERWACJA set KLI_Id 	= '10' 			where REZk_1_Id = 5;
-update REZERWACJA set SPR_Id 	= '10' 			where REZk_1_Id = 8;
+update REZERWACJA set REZ_Data		= '31.12.2000' 	where REZk_1_Id = 2;
+update REZERWACJA set REZ_Ile_Dni 	= '100' 		where REZk_1_Id = 4;
+update REZERWACJA set REZ_Ile_Sztuk = '99' 			where REZk_1_Id = 7;
+update REZERWACJA set KLI_Id 		= '10' 			where REZk_1_Id = 5;
+update REZERWACJA set SPR_Id 		= '10' 			where REZk_1_Id = 8;
 
 select * from REZERWACJA;
 
@@ -918,7 +918,7 @@ tablespace STUDENT_INDEX;
 -----------------------
 -------------------
 ---------------
-
+--TEST DAT----------------------------------------------------
 
 
 set serveroutput on;
