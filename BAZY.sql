@@ -1,6 +1,7 @@
 --@"C:\Users\bazy_danych_2\Downloads\BAZY.sql"
 --@"D:\KrokMateusz\BAZY.sql"
 --@"C:\Users\mati\Desktop\BAZY.sql"
+
 clear screen;
 
 DELETE FROM WYPOZYCZENIA;
@@ -1116,6 +1117,7 @@ create or replace procedure TEST_rekordy_2
 	telefon PRACOWNICY.PRA_Telefon%TYPE
  )
 is
+	
 	imie2 PRACOWNICY.PRA_Imie%TYPE;
 	nazwisko2 PRACOWNICY.PRA_Nazwisko%TYPE;
 	stanowisko2 PRACOWNICY.PRA_Stanowisko%TYPE;
@@ -1161,10 +1163,77 @@ begin
 TEST_rekordy_2('Tadeusz', 'Tadzikowski', 'Tokarz', 666555666);
 end;
 /
------
-----
+
+-- WYJATKI
+
+create or replace procedure Wyjatek_rekordy_2
+( 
+	ID PRACOWNICY.PRAk_1_Id%TYPE,
+	Imie PRACOWNICY.PRA_Imie%TYPE,
+	Nazwisko PRACOWNICY.PRA_Nazwisko%TYPE,
+	Stanowisko PRACOWNICY.PRA_Stanowisko%TYPE,
+	Telefon PRACOWNICY.PRA_Telefon%TYPE,
+	Adres PRACOWNICY.ADR_Id%TYPE
+ )
+is
+ ZLY_TEL EXCEPTION;
+ PRAGMA EXCEPTION_INIT(ZLY_TEL, -20200);
+begin
+if (Telefon < 99999999) then raise ZLY_TEL;
+end if;
+     update PRACOWNICY set PRA_Imie=Imie, PRA_Nazwisko=Nazwisko, PRA_Stanowisko=Stanowisko, PRA_Telefon=Telefon, PRACOWNICY.ADR_Id=Adres
+     where PRAk_1_Id=ID;
+		if SQL%NOTFOUND then
+		insert into PRACOWNICY values ('',Imie,Nazwisko,Stanowisko,888777999,Adres);		
+		end if;
+EXCEPTION
+    WHEN ZLY_TEL THEN
+	update PRACOWNICY set PRA_Imie=Imie, PRA_Nazwisko=Nazwisko, PRA_Stanowisko=Stanowisko, PRA_Telefon=NULL, PRACOWNICY.ADR_Id=Adres
+     where PRAk_1_Id=ID;
+		if SQL%NOTFOUND then
+		dbms_output.put_line('!!! Wykryto blad ZLY_TEL !!!');
+		insert into PRACOWNICY values ('',Imie,Nazwisko,Stanowisko,999999999,Adres);		
+		end if;  
+end;
+/
+
+begin
+Wyjatek_rekordy_2('','Waclaw','Wyjatkiewicz','Wyrzutnik',12345678,2);
+Wyjatek_rekordy_2('','Waldek','Wyjatek','Wyrzutnik',87654321,7);
+end;
+/
+
+-- KOLEKCJE
 
 
+DELETE FROM VWARTOSCI;
+drop table VWARTOSCI;
+drop type VWARTOSCI;
+
+DELETE FROM VPRACOWNICY;
+drop table VPRACOWNICY;
+drop type VPRACOWNICY;
+
+Create or replace 
+type VPRACOWNICY IS VARRAY(10) OF VARCHAR2(15);
+/
+
+CREATE TABLE VWARTOSCI
+(
+WAR_Stanowisko VPRACOWNICY
+);
+
+insert into VWARTOSCI values (VPRACOWNICY('Sprzatacz','Szef','Manager','Kucharz','Ochroniarz','Adwokat','Informatyk','Psycholog','Administrator','Kierowca'));
+
+DECLARE
+  random  INTEGER;  
+  BEGIN
+  FOR i IN 1 .. 5 LOOP
+    random := DBMS_RANDOM.value(1,10);
+    DBMS_OUTPUT.put_line('Wylosowano:' || random ||' Stanowisko:');
+  END LOOP;
+END;
+/
 
 
 
@@ -1178,8 +1247,6 @@ end;
 
 PROMPT END of SCRIPT;
 commit;
-
-
 
 --@"C:\Users\bazy_danych_2\Downloads\BAZY.sql"
 --@"D:\KrokMateusz\BAZY.sql"
